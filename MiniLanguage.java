@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class MiniLanguage{
   public static void main(String[] args){
     //ファイルの内容を読み込み、行ごとにリストallLinesに格納し、拡張for文で改行を加えて全部の行を連結
-    Path path = Paths.get("sample.txt");
+    Path path = Paths.get("sample_text/sample1.txt"); //ここを変えて読み込むファイル変更
     List<String> allLines = null;
     String delim = " \t,\n";
     String allText = "";
@@ -25,7 +25,7 @@ public class MiniLanguage{
     prog.parse(ct);
     prog.exe();
 
-    JFrame jf = new JFrame("sample");
+    JFrame jf = new JFrame("実行結果");
     MyCanvas mc = new MyCanvas();
     jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     mc.addMouseListener(mc);
