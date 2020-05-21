@@ -8,268 +8,270 @@ import java.nio.file.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-public class MiniLanguage{
-  public static void main(String[] args){
-    //ƒtƒ@ƒCƒ‹‚Ì“à—e‚ğ“Ç‚İ‚İAs‚²‚Æ‚ÉƒŠƒXƒgallLines‚ÉŠi”[‚µAŠg’£for•¶‚Å‰üs‚ğ‰Á‚¦‚Ä‘S•”‚Ìs‚ğ˜AŒ‹
-    Path path = Paths.get("sample_text/sample1.txt"); //‚±‚±‚ğ•Ï‚¦‚Ä“Ç‚İ‚Şƒtƒ@ƒCƒ‹•ÏX
-    List<String> allLines = null;
-    String delim = " \t,\n";
-    String allText = "";
-    try{
-      allLines = Files.readAllLines(path, StandardCharsets.UTF_8);
-    }catch(IOException e){}
-    for(String s: allLines)
-      allText += (s + "\n");
-    Context ct = new Context(allText, delim);
-    Prog prog = new Prog();
-    prog.parse(ct);
-    prog.exe();
 
-    JFrame jf = new JFrame("ÀsŒ‹‰Ê");
-    MyCanvas mc = new MyCanvas();
-    jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    mc.addMouseListener(mc);
-    mc.addMouseMotionListener(mc);
-    mc.setPreferredSize(new Dimension(700, 700));
-    jf.getContentPane().add(mc);
-    jf.pack();
-    jf.setVisible(true);
-  }
+public class MiniLanguage{
+    public static void main(String[] args){
+        //ãƒ•ã‚¡ã‚¤ãƒ«ã®å†…å®¹ã‚’èª­ã¿è¾¼ã¿ã€è¡Œã”ã¨ã«ãƒªã‚¹ãƒˆallLinesã«æ ¼ç´ã—ã€æ‹¡å¼µforæ–‡ã§æ”¹è¡Œã‚’åŠ ãˆã¦å…¨éƒ¨ã®è¡Œã‚’é€£çµ
+        Path path = Paths.get("sample_text/sample1.txt"); //ã“ã“ã‚’å¤‰ãˆã¦èª­ã¿è¾¼ã‚€ãƒ•ã‚¡ã‚¤ãƒ«å¤‰æ›´
+        List<String> allLines = null;
+        String delim = " \t,\n";
+        String allText = "";
+        try{
+            allLines = Files.readAllLines(path, StandardCharsets.UTF_8);
+        }catch(IOException e){}
+        for(String s: allLines)
+            allText += (s + "\n");
+        Context ct = new Context(allText, delim);
+        Prog prog = new Prog();
+        prog.parse(ct);
+        prog.exe();
+
+        JFrame jf = new JFrame("å®Ÿè¡Œçµæœ");
+        MyCanvas mc = new MyCanvas();
+        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mc.addMouseListener(mc);
+        mc.addMouseMotionListener(mc);
+        mc.setPreferredSize(new Dimension(700, 700));
+        jf.getContentPane().add(mc);
+        jf.pack();
+        jf.setVisible(true);
+    }
 }
 
 class MyCanvas extends JPanel implements MouseListener, MouseMotionListener{
-  double alpha = 30;
-  double beta = 40;
-  int doX, doY;
+    double alpha = 30;
+    double beta = 40;
+    int doX, doY;
 
-  public void paintComponent(Graphics g){
-    int _dx = 0, _dy = 0, dx = 0, dy = 0;
-    super.paintComponent(g);
-    setBackground(Color.black);
-    g.setColor(Color.white);
-    Figure3D.display(alpha, beta, getWidth()/2, getHeight()/2, g);
-  }
-  public void mousePressed(MouseEvent e){
-    doX = e.getX();
-    doY = e.getY();
-  }
-  public void mouseDragged(MouseEvent e){
-    alpha = alpha + e.getY() - doY;
-    beta = beta + e.getX() -doX;
-    doX = e.getX();
-    doY = e.getY();
-    repaint();
-  }
-  public void mouseReleased(MouseEvent e){}
-  public void mouseClicked(MouseEvent e){}
-  public void mouseEntered(MouseEvent e){}
-  public void mouseExited(MouseEvent e){}
-  public void mouseMoved(MouseEvent e){}
+    public void paintComponent(Graphics g){
+        int _dx = 0, _dy = 0, dx = 0, dy = 0;
+        super.paintComponent(g);
+        setBackground(Color.black);
+        g.setColor(Color.white);
+        Figure3D.display(alpha, beta, getWidth()/2, getHeight()/2, g);
+    }
+    public void mousePressed(MouseEvent e){
+        doX = e.getX();
+        doY = e.getY();
+    }
+    public void mouseDragged(MouseEvent e){
+        alpha = alpha + e.getY() - doY;
+        beta = beta + e.getX() -doX;
+        doX = e.getX();
+        doY = e.getY();
+        repaint();
+    }
+    public void mouseReleased(MouseEvent e){}
+    public void mouseClicked(MouseEvent e){}
+    public void mouseEntered(MouseEvent e){}
+    public void mouseExited(MouseEvent e){}
+    public void mouseMoved(MouseEvent e){}
 }
 //Prog -> Com_list [EOF]
 class Prog{
-  private Com_list clist;
-  public void parse(Context ct){
-    clist = new Com_list();
-    clist.parse(ct);
-    //[EOF]‚Í‚±‚ÌŒã‚Í‰½‚à‚È‚¢‚Æ‚¢‚¤ˆÓ–¡‚È‚Ì‚Å
-    if(ct.currentToken() != null){
-      System.out.println("Prog:“ü—Í‚ÌÅŒã‚É—]•ª‚Èƒg[ƒNƒ“‚ª‚ ‚è‚Ü‚·");
-      System.exit(0);
+    private Com_list clist;
+    public void parse(Context ct){
+        clist = new Com_list();
+        clist.parse(ct);
+        //[EOF]ã¯ã“ã®å¾Œã¯ä½•ã‚‚ãªã„ã¨ã„ã†æ„å‘³ãªã®ã§
+        if(ct.currentToken() != null){
+            System.out.println("Prog:å…¥åŠ›ã®æœ€å¾Œã«ä½™åˆ†ãªãƒˆãƒ¼ã‚¯ãƒ³ãŒã‚ã‚Šã¾ã™");
+            System.exit(0);
+        }
     }
-  }
-  void exe(){
-    clist.exe();
-  }
+    void exe(){
+        clist.exe();
+    }
 }
 
 //Com_list -> [Rep_com Prim_com] Com_list?
 class Com_list{
-  private Rep_com rcom;
-  private Prim_com pcom;
-  private Com_list clist;
-  public void parse(Context ct){
-    //if~else‚ÅRep_com‚©Prim_com‚©”»•Ê
-    if(ct.match("\\{")){
-      rcom = new Rep_com();
-      rcom.parse(ct);
+    private Rep_com rcom;
+    private Prim_com pcom;
+    private Com_list clist;
+    public void parse(Context ct){
+        //if~elseã§Rep_comã‹Prim_comã‹åˆ¤åˆ¥
+        if(ct.match("\\{")){
+            rcom = new Rep_com();
+            rcom.parse(ct);
+        }
+        else{
+            pcom = new Prim_com();
+            pcom.parse(ct);
+        }
+        //Com_listãŒã‚ã‚‹ã¨ãã¯ã€Rep_comã‹Prim_comã§å§‹ã¾ã‚‹ã®ã§ä»¥ä¸‹ã®ifæ–‡ã§åˆ¤åˆ¥
+        if(ct.match("\\{") || ct.match("walk") || ct.match("move") || ct.match("go_far") || ct.match("move_far")){
+            clist = new Com_list();
+            clist.parse(ct);
+        }
     }
-    else{
-      pcom = new Prim_com();
-      pcom.parse(ct);
+    void exe(){
+        if(rcom != null){
+            rcom.exe();
+        }
+        else{
+            pcom.exe();
+        }
+        if(clist != null){
+            clist.exe();
+        }
     }
-    //Com_list‚ª‚ ‚é‚Æ‚«‚ÍARep_com‚©Prim_com‚Ån‚Ü‚é‚Ì‚ÅˆÈ‰º‚Ìif•¶‚Å”»•Ê
-    if(ct.match("\\{") || ct.match("walk") || ct.match("move") || ct.match("go_far") || ct.match("move_far")){
-      clist = new Com_list();
-      clist.parse(ct);
-    }
-  }
-  void exe(){
-    if(rcom != null){
-      rcom.exe();
-    }
-    else{
-      pcom.exe();
-    }
-    if(clist != null){
-      clist.exe();
-    }
-  }
 }
 
 //Rep_com -> { Com_list? [0-9]+ }
 class Rep_com{
-  int inum = 0;
-  private Com_list clist;
-  public void parse(Context ct){
-    if(ct.match("\\{")){
-      ct.toNext();
+    int inum = 0;
+    private Com_list clist;
+    public void parse(Context ct){
+        if(ct.match("\\{")){
+            ct.toNext();
+        }
+        else{
+            System.out.println("Rep_com: '{'ãŒã‚ã‚Šã¾ã›ã‚“: " +ct.currentToken());
+            System.exit(0);
+        }
+        if(ct.match("\\{") || ct.match("walk") || ct.match("move") || ct.match("go_far") || ct.match("move_far")){
+            clist = new Com_list();
+            clist.parse(ct);
+        }
+        if(ct.match("[0-9]+")){
+            //0ã‚’å«ã‚€è‡ªç„¶æ•°ã‚’è¡¨ã™æ–‡å­—åˆ—ã‚’æ•´æ•°å€¤ã«å¤‰æ›
+            inum = Integer.parseInt(ct.currentToken());
+            ct.toNext();
+            if(ct.match("\\}")){
+                ct.toNext();
+            }
+        else{
+                System.out.println("Rep_com: '}'ãŒã‚ã‚Šã¾ã›ã‚“: " +ct.currentToken());
+                System.exit(0);
+            }
+        }
+        else{
+            System.out.println("Rep_com: æ•°å­—ãŒã‚ã‚Šã¾ã›ã‚“: " +ct.currentToken());
+            System.exit(0);
+        }
     }
-    else{
-      System.out.println("Rep_com: '{'‚ª‚ ‚è‚Ü‚¹‚ñ: " +ct.currentToken());
-      System.exit(0);
+    void exe(){
+        for(int i = 0; i < inum; i++){
+            clist.exe();
+        }
     }
-    if(ct.match("\\{") || ct.match("walk") || ct.match("move") || ct.match("go_far") || ct.match("move_far")){
-      clist = new Com_list();
-      clist.parse(ct);
-    }
-    if(ct.match("[0-9]+")){
-      //0‚ğŠÜ‚Ş©‘R”‚ğ•\‚·•¶š—ñ‚ğ®”’l‚É•ÏŠ·
-      inum = Integer.parseInt(ct.currentToken());
-      ct.toNext();
-      if(ct.match("\\}")){
-        ct.toNext();
-      }
-      else{
-        System.out.println("Rep_com: '}'‚ª‚ ‚è‚Ü‚¹‚ñ: " +ct.currentToken());
-        System.exit(0);
-      }
-    }
-    else{
-      System.out.println("Rep_com: ”š‚ª‚ ‚è‚Ü‚¹‚ñ: " +ct.currentToken());
-      System.exit(0);
-    }
-  }
-  void exe(){
-      for(int i = 0; i < inum; i++){
-        clist.exe();
-    }
-  }
 }
 
 /*Prim_com -> walk [+-]?[0-9]+(.[0-9]+)? [+-]?[0-9]+(.[0-9]+)?
-              | move [+-]?[0-9]+(.[0-9]+)? [+-]?[0-9]+(.[0-9]+)?
-              | go_far [+-]?[0-9]+(.[0-9]+)?
-              | move_far [+-]?[0-9]+(.[0-9]+)?*/
+            | move [+-]?[0-9]+(.[0-9]+)? [+-]?[0-9]+(.[0-9]+)?
+            | go_far [+-]?[0-9]+(.[0-9]+)?
+            | move_far [+-]?[0-9]+(.[0-9]+)?*/
 class Prim_com{
-  static double Pos_r = 0, Pos_th = 0, Pos_phi = 0;
-  String op;
-  double fnum1, fnum2;
-  static boolean draw_flag;
-  public void parse(Context ct){
-    if(ct.match("walk") || ct.match("move")){
-      op = ct.currentToken();
-      ct.toNext();
-      if(ct.match("[+-]?[0-9]+(.[0-9]+)?")){
-        //À”‚ğ•\‚·•¶š—ñ‚ğÀ”’l‚É•ÏŠ·
-        fnum1 = Double.parseDouble(ct.currentToken());
-        ct.toNext();
-      }
-      if(ct.currentToken().matches("[+-]?[0-9]+(.[0-9]+)?") && ct.currentToken() != null){
-        fnum2 = Double.parseDouble(ct.currentToken());
-        ct.toNext();
-      }
-      else{
-        System.out.println("ˆø”‚Ì”‚ª“KØ‚Å‚Í‚ ‚è‚Ü‚¹‚ñ");
-        System.exit(0);
-      }
+    static double Pos_r = 0, Pos_th = 0, Pos_phi = 0;
+    String op;
+    double fnum1, fnum2;
+    static boolean draw_flag;
+    public void parse(Context ct){
+        if(ct.match("walk") || ct.match("move")){
+            op = ct.currentToken();
+            ct.toNext();
+            if(ct.match("[+-]?[0-9]+(.[0-9]+)?")){
+                //å®Ÿæ•°ã‚’è¡¨ã™æ–‡å­—åˆ—ã‚’å®Ÿæ•°å€¤ã«å¤‰æ›
+                fnum1 = Double.parseDouble(ct.currentToken());
+                ct.toNext();
+            }
+            if(ct.currentToken().matches("[+-]?[0-9]+(.[0-9]+)?") && ct.currentToken() != null){
+                fnum2 = Double.parseDouble(ct.currentToken());
+                ct.toNext();
+            }
+            else{
+                System.out.println("å¼•æ•°ã®æ•°ãŒé©åˆ‡ã§ã¯ã‚ã‚Šã¾ã›ã‚“");
+                System.exit(0);
+            }
+        }
+        else if(ct.match("go_far") || ct.match("move_far")){
+            op = ct.currentToken();
+            ct.toNext();
+            if(ct.currentToken().matches("[+-]?[0-9]+(.[0-9]+)?") && ct.currentToken() != null){
+                fnum1 = Double.parseDouble(ct.currentToken());
+                fnum2 = 0;
+                ct.toNext();
+            }
+        }
+        else{
+            System.out.println("Prim_com :walk, move, go_far, move_farã®ã„ãšã‚Œã‹ãŒã‚ã‚Šã¾ã›ã‚“:" +ct.currentToken());
+            System.exit(0);
+        }
     }
-    else if(ct.match("go_far") || ct.match("move_far")){
-      op = ct.currentToken();
-      ct.toNext();
-      if(ct.currentToken().matches("[+-]?[0-9]+(.[0-9]+)?") && ct.currentToken() != null){
-        fnum1 = Double.parseDouble(ct.currentToken());
-        fnum2 = 0;
-        ct.toNext();
-      }
+    void exe(){
+        //ç·šã‚’å¼•ããªãŒã‚‰ç§»å‹•ã™ã‚‹ã‹ã—ãªã„ã®åŒºåˆ¥ ç·šã‚’å¼•ããªã‚‰true
+        if(op.equals("walk") || op.equals("go_far")){
+            draw_flag = true;
+        }
+        else{
+            draw_flag = false;
+        }
+        if(op.equals("walk") || op.equals("move")){
+            Pos_th += fnum1;
+            Pos_phi += fnum2;
+        }
+        else{
+            Pos_r += fnum1;
+        }
+        Figure3D.prim(Pos_r, Pos_th, Pos_phi, draw_flag);
     }
-    else{
-      System.out.println("Prim_com :walk, move, go_far, move_far‚Ì‚¢‚¸‚ê‚©‚ª‚ ‚è‚Ü‚¹‚ñ:" +ct.currentToken());
-      System.exit(0);
-    }
-  }
-  void exe(){
-    //ü‚ğˆø‚«‚È‚ª‚çˆÚ“®‚·‚é‚©‚µ‚È‚¢‚Ì‹æ•Ê ü‚ğˆø‚­‚È‚çtrue
-    if(op.equals("walk") || op.equals("go_far")){
-      draw_flag = true;
-    }
-    else{
-      draw_flag = false;
-    }
-    if(op.equals("walk") || op.equals("move")){
-      Pos_th += fnum1;
-      Pos_phi += fnum2;
-    }
-    else{
-      Pos_r += fnum1;
-    }
-    Figure3D.prim(Pos_r, Pos_th, Pos_phi, draw_flag);
-  }
 }
 
 class Figure3D{
-  static ArrayList<Point3D> list = new ArrayList<Point3D>();
-  static void prim(double r, double th, double phi, boolean flag){
-    double D2R = Math.PI/180.0;
-    double x, y, z;
-    //‹ÉÀ•W‚©‚ç’¼ŒğÀ•W‚Ö•ÏŠ·
-    x = r*Math.sin(th*D2R)*Math.sin(phi*D2R);
-    y = r*Math.cos(th*D2R);
-    z = r*Math.sin(th*D2R)*Math.cos(phi*D2R);
-    list.add(new Point3D(x, y, z, flag));
-  }
-  static void display(double alpha, double beta, int px, int py, Graphics g){
-    int _dx = 0, _dy = 0, dx = 0, dy = 0;
-    Point p2d;
-    int N = list.size();
-    int i = 0;
-    for(Point3D p: list){
-      p2d = p.get2D(alpha, beta, px, py);//list‚©‚ç—v‘f‚ğæ‚èo‚µAget2D‚ğÀs‚µAPointƒIƒuƒWƒFƒNƒg‚ğæ“¾
-      dx = (int)p2d.getX();//PointƒIƒuƒWƒFƒNƒg‚©‚çxÀ•W‚ğæ“¾
-      dy = (int)p2d.getY();//yÀ•W‚ğæ“¾
-      if(p.flag == true && i++ > 0){
-        g.setColor(Color.getHSBColor((float)i/N, 1.0f, 1.0f));
-        g.drawLine(_dx, _dy, dx, dy);
-      }
-      _dx = dx;//Œ»“_‚Ì“_‚ğˆê‚Â‘O‚Ì“_‚É‚·‚é
-      _dy = dy;
+    static ArrayList<Point3D> list = new ArrayList<Point3D>();
+    static void prim(double r, double th, double phi, boolean flag){
+        double D2R = Math.PI/180.0;
+        double x, y, z;
+        //æ¥µåº§æ¨™ã‹ã‚‰ç›´äº¤åº§æ¨™ã¸å¤‰æ›
+        x = r*Math.sin(th*D2R)*Math.sin(phi*D2R);
+        y = r*Math.cos(th*D2R);
+        z = r*Math.sin(th*D2R)*Math.cos(phi*D2R);
+        list.add(new Point3D(x, y, z, flag));
     }
-  }
+
+    static void display(double alpha, double beta, int px, int py, Graphics g){
+        int _dx = 0, _dy = 0, dx = 0, dy = 0;
+        Point p2d;
+        int N = list.size();
+        int i = 0;
+        for(Point3D p: list){
+            p2d = p.get2D(alpha, beta, px, py);//listã‹ã‚‰è¦ç´ ã‚’å–ã‚Šå‡ºã—ã€get2Dã‚’å®Ÿè¡Œã—ã€Pointã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—
+            dx = (int)p2d.getX();//Pointã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‹ã‚‰xåº§æ¨™ã‚’å–å¾—
+            dy = (int)p2d.getY();//yåº§æ¨™ã‚’å–å¾—
+            if(p.flag == true && i++ > 0){
+                g.setColor(Color.getHSBColor((float)i/N, 1.0f, 1.0f));
+                g.drawLine(_dx, _dy, dx, dy);
+            }
+            _dx = dx;//ç¾æ™‚ç‚¹ã®ç‚¹ã‚’ä¸€ã¤å‰ã®ç‚¹ã«ã™ã‚‹
+            _dy = dy;
+        }
+    }
 }
 
 class Point3D{
-  private double x, y, z;
-  boolean flag;
-  Point3D(double _x, double _y, double _z, boolean _flag){
-    x = _x;
-    y = _y;
-    z = _z;
-    flag = _flag;
-  }
-  //OŸŒ³À•W‚©‚ç“ñŸŒ³À•W‚Ö•ÏŠ·
-  Point get2D(double alpha, double beta, int px, int py){//Œ´“_(px, py)
-    double D2R = Math.PI/180.0;
-    double a = alpha*D2R, b = beta*D2R;
-    double x1, y1, zt;
-    int x2d, y2d;
-    double sinA = Math.sin(a), sinB = Math.sin(b);
-    double cosA = Math.cos(a), cosB = Math.cos(b);
-    //³Ë‰e•ÏŠ·
-    x1 = x*cosB + z*sinB;
-    zt = -x*sinB + z*cosB;
-    y1 = y*cosA - zt*sinA;
-    x2d = px+(int)Math.rint(x1);
-    y2d = py-(int)Math.rint(y1);
-    return new Point(x2d, y2d);
-  }
+    private double x, y, z;
+    boolean flag;
+    Point3D(double _x, double _y, double _z, boolean _flag){
+        x = _x;
+        y = _y;
+        z = _z;
+        flag = _flag;
+    }
+    //ä¸‰æ¬¡å…ƒåº§æ¨™ã‹ã‚‰äºŒæ¬¡å…ƒåº§æ¨™ã¸å¤‰æ›
+    Point get2D(double alpha, double beta, int px, int py){//åŸç‚¹(px, py)
+        double D2R = Math.PI/180.0;
+        double a = alpha*D2R, b = beta*D2R;
+        double x1, y1, zt;
+        int x2d, y2d;
+        double sinA = Math.sin(a), sinB = Math.sin(b);
+        double cosA = Math.cos(a), cosB = Math.cos(b);
+        //æ­£å°„å½±å¤‰æ›
+        x1 = x*cosB + z*sinB;
+        zt = -x*sinB + z*cosB;
+        y1 = y*cosA - zt*sinA;
+        x2d = px+(int)Math.rint(x1);
+        y2d = py-(int)Math.rint(y1);
+        return new Point(x2d, y2d);
+    }
 }

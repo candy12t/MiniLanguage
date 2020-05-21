@@ -1,19 +1,28 @@
 import java.util.*;
 import java.util.regex.*;
+
+
 public class Context{
-  private StringTokenizer st;
-  private String token;
-  public Context(String text, String delim){
-    st = new StringTokenizer(text, delim); //s‚ğ’PŒê‚É•ªŠ„
-    toNext();
-  }
-  public void toNext(){//Ÿ‚Ìƒg[ƒNƒ“‚ğ’T‚µA‚ ‚ê‚Îtoken‚ğŠi”[
-    token = st.hasMoreTokens() ? st.nextToken() : null;
-  }
-  public String currentToken(){//Œ»“_‚ğƒg[ƒNƒ“‚ğ•Ô‚·
-    return token;
-  }
-  public boolean match(String s){
-    return (token != null) ? token.matches(s) : false;
-  }
+    private StringTokenizer st;
+    private String token;
+
+    // è¡Œã‚’å˜èªã«åˆ†å‰²
+    public Context(String text, String delim){
+        st = new StringTokenizer(text, delim);
+        toNext();
+    }
+
+    //æ¬¡ã®ãƒˆãƒ¼ã‚¯ãƒ³ã‚’æ¢ã—ã€ã‚ã‚Œã°tokenã‚’æ ¼ç´
+    public void toNext(){
+        token = st.hasMoreTokens() ? st.nextToken() : null;
+    }
+
+    //ç¾æ™‚ç‚¹ã‚’ãƒˆãƒ¼ã‚¯ãƒ³ã‚’è¿”ã™
+    public String currentToken(){
+        return token;
+    }
+
+    public boolean match(String s){
+        return (token != null) ? token.matches(s) : false;
+    }
 }
