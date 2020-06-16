@@ -56,7 +56,7 @@ ___太字___ は終端記号を示す。
 
 #### 実行結果1
 
-![sample1実行結果](https://user-images.githubusercontent.com/47876646/61169993-3559bc80-a59e-11e9-97bc-8ad4fd92e1e2.png "sample1実行結果")
+<img src="https://user-images.githubusercontent.com/47876646/61169993-3559bc80-a59e-11e9-97bc-8ad4fd92e1e2.png" width="450px">
 
 ### sample2
 
@@ -75,7 +75,7 @@ ___太字___ は終端記号を示す。
 
 #### 実行結果2
 
-![sample2実行結果](https://user-images.githubusercontent.com/47876646/61169997-44d90580-a59e-11e9-8787-3dc4e82ec236.png "sample2実行結果")
+<img src="https://user-images.githubusercontent.com/47876646/61169997-44d90580-a59e-11e9-8787-3dc4e82ec236.png" width="450px">
 
 ### sample3
 
@@ -94,4 +94,4 @@ ___太字___ は終端記号を示す。
 
 #### 実行結果3
 
-![sample3実行結果](https://user-images.githubusercontent.com/47876646/61170021-a7ca9c80-a59e-11e9-82bc-357a528348ed.png "sample1実行結果")
+<img src="https://user-images.githubusercontent.com/47876646/61170021-a7ca9c80-a59e-11e9-82bc-357a528348ed.png" width="450px">
